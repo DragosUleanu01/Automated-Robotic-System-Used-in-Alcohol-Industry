@@ -1,0 +1,508 @@
+unit Unit1;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls, StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    Timer1: TTimer;
+    Image1: TImage;
+    Label1: TLabel;
+    procedure Timer1Timer(Sender: TObject);
+  private
+   procedure DrawBottle(Rect1:TRect;Rect2:TRect;param1:Integer;param2:Integer);
+   procedure DrawPensor(RectBase:TRect;RectArm1:TRect;RectArm2:TRect;param1:Integer;param2:Integer;paramCtrl:boolean);
+   procedure DrawRobot1(RectRobot:TRect;param1:Integer;param2:Integer;param3:Integer;param4:Integer);
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+  X,Y: Integer;
+  a,b,c,d,faza,alpha,beta,sigma,j,avans,banda,avans1,checking,altaChestie: Integer;
+  bw,bh,bx,by,bgw,bgh,bgx,bgy: Integer;
+  m,n,o,p,faza2,chestieRobot2 :Integer;
+  Rect1:TRect;
+  Rect2:TRect;
+  RectBase:TRect;
+  RectArm1:TRect;
+  RectArm2:TRect;
+  RectRobot:TRect;
+  rot: boolean = true;
+  rot1: boolean = true;
+  rot2: boolean = true;
+  check: boolean = true;
+  control: boolean = false;
+  control2:boolean = false;
+  control3:boolean = false;
+  miscareSticlaX:Integer = 100;
+  x1,y1,x2,y2,x3,y3,x4,y4,t2,z:Integer;
+  miscareSticlaY,copie : Integer;
+  const
+  x0 = 80;
+  y0 = 480;
+  x01 = 210;
+  y01 = 480;
+  x02 = 360;
+  y02 = 480;
+  r1 = 10;
+  r3 = 60;
+  t2max = 0;
+  //variabile sticla
+
+
+implementation
+
+
+{$R *.dfm}
+
+procedure TForm1.DrawBottle(Rect1:TRect;Rect2:TRect;param1:Integer;param2:Integer);
+
+begin
+with Form1.Image1.Canvas do
+begin
+pen.Width :=2;
+
+
+pen.Color := clBlack;
+
+Rect1 := Rect(param1,param2,param1 + 20, param2 +20);
+Rect2 := Rect(param1-20,param2+20,param1+40,param2+100);
+
+brush.Color :=clMaroon;
+FillRect(Rect1);
+FillRect(Rect2);
+  brush.Color := clInfoBk;
+rectangle(750,380,850,430);
+
+
+
+{
+rectangle(param1,param2,param1+20,param2+20);
+rectangle(param1-20,param2+20,param1+40,param2+100);
+   }
+
+
+
+end;
+end;
+
+procedure TForm1.DrawPensor(RectBase:TRect;RectArm1:TRect;RectArm2:TRect;param1:Integer;param2:Integer;paramCtrl:boolean);
+begin
+with Form1.Image1.Canvas do
+begin
+pen.Width :=2;
+pen.Color := clBlack;
+RectBase:= Rect(param1,param2,param1+50,param2+20);
+RectArm1:= Rect(param1,param2,param1+10,param2+50);
+RectArm2:= Rect(param1+50,param2,param1+60,param2+50);
+if(paramCtrl = true) then
+brush.Color :=clRed;
+if(paramCtrl = false) then
+brush.Color :=clBlue;
+FillRect(RectBase);
+FillRect(RectArm1);
+FillRect(RectArm2);
+end;
+end;
+
+procedure TForm1.DrawRobot1(RectRobot:TRect;param1:Integer;param2:Integer;param3:Integer;param4:Integer);
+begin
+with Form1.Image1.Canvas do
+begin
+pen.Width :=2;
+pen.Color := clBlack;
+RectRobot:=Rect(param1,param2,param3,param4);
+brush.Color :=clRed;
+FillRect(RectRobot);
+end;
+end;
+
+
+procedure TForm1.Timer1Timer(Sender: TObject);
+begin
+with Form1.Image1.Canvas do
+begin
+
+
+ //Background si Conveyoir
+ brush.color := clBtnShadow;
+ pen.Color := clBtnShadow;
+ rectangle(0,0,865,481);
+  pen.Color := clCaptionText;
+  polygon([point(50,50),point(50,350),point(850,350),point(850,50)]);
+  polygon([point(50,350),point(0,481)]);
+
+  MoveTo(50,50);
+  LineTo(0,100);
+  brush.color := clActiveCaption;
+  polygon([point(0,470),point(0,400),point(570,400),point(500,470)]);
+  brush.color := clBtnShadow;
+  polygon([point (0,470),point(0,400),point(70,400),point(0,470)]);
+  brush.Color :=  clBackground;
+  polygon([point(0,480),point(0,470),point(500,470),point(500,480)]);
+         polygon([point(500,480),point(500,470),point(570,400),point(570,410)]);
+
+brush.color := clBackground;
+rectangle(580,340,650,400);
+brush.color := clActiveCaption;
+pen.Width := 2;
+pen.Color := clBackground;
+rectangle(580,340,650,390);
+
+
+
+
+
+
+
+
+
+
+
+   pen.Color := clCaptionText;
+
+ {roundrect(300,450,250,500,40,60);}
+
+ for j :=0 to 9 do
+ begin
+ if avans < 100 then
+ begin
+ pen.Width := 5;
+ MoveTo(70+j*50 + avans, 400);   {coordonata punctului de sus}
+ LineTo(0+j*50+avans,470);       {coordonata punctului de jos}
+ {rectangle(50,400,100,450);}
+
+
+
+ if avans = 50 then     {pana unde se duce banda, invers}
+ avans:=0;
+ end;
+ end;
+
+ case banda of
+ 0: begin
+      avans:=avans+1;
+        end;
+        end;
+
+
+
+
+  pen.Width:=1;
+
+  pen.Color := clBtnHighlight;
+  brush.Color := clAppWorkspace;
+  ellipse(70,470,90,490);
+  pen.Width :=2;
+      pen.Color :=  clBackground;
+
+  pen.Width :=1;
+  pen.Color := clBtnHighlight;
+  brush.Color := clAppWorkspace;
+  ellipse(200,470,220,490);
+  pen.Width :=2;
+      pen.Color :=  clBackground;
+
+   pen.Width :=1;
+  pen.Color := clBtnHighlight;
+  brush.Color := clAppWorkspace;
+  ellipse(350,470,370,490);
+  pen.Width :=2;
+      pen.Color :=  clBackground;
+
+ if rot
+ then t2 := t2+1
+ else t2:=t2-1;
+ if(T2 = t2max) or (t2 = 0) then rot:=not rot;
+ x1 := Trunc(x0 + r1 * (sin(t2/10)));
+ y1 := Trunc(y0 + r1 * (cos(t2/10)));
+ MoveTo(x0,y0);
+ LineTo(x1,y1);
+
+  if rot1
+ then t2 := t2+1
+ else t2:=t2-1;
+ if(T2 = t2max) or (t2 = 0) then rot:=not rot;
+ x2 := Trunc(x01 + r1 * (sin(t2/10)));
+ y2 := Trunc(y01 + r1 * (cos(t2/10)));
+ MoveTo(x01,y01);
+ LineTo(x2,y2);
+
+ if rot2
+ then t2 := t2+1
+ else t2:=t2-1;
+ if(T2 = t2max) or (t2 = 0) then rot:=not rot;
+ x3 := Trunc(x02 + r1 * (sin(t2/10)));
+ y3 := Trunc(y02 + r1 * (cos(t2/10)));
+ MoveTo(x02,y02);
+ LineTo(x3,y3);
+
+
+
+
+
+
+
+
+
+
+{FillRect(clientrect);}
+brush.color:=clred;
+
+DrawPensor(RectBase,RectArm1,RectArm2,220+altaChestie,100+alpha,true) ;
+rectangle(230+altaChestie,90,270+altaChestie,100+d);
+rectangle(220+altaChestie, 90, 280+altaChestie, 100+c);
+rectangle(210+altaChestie, 90, 290+altaChestie,100+b);
+rectangle(200+altaChestie,50,300+altaChestie,100);
+
+ //Robot2
+brush.color := clBlue;
+DrawPensor(RectBase,RectArm1,RectArm2,770-chestieRobot2,100+sigma,false);
+rectangle(790-chestieRobot2,50,810 - chestieRobot2,100+o);
+rectangle(780-chestieRobot2,50,820 - chestieRobot2,100+n);
+rectangle(770-chestieRobot2,50,830-chestieRobot2,100+m);
+rectangle(750-chestieRobot2,50,850-chestieRobot2,100);
+
+
+case faza2 of
+0:
+begin
+if(control2 = true) then
+faza2 :=1;
+sigma:=0;
+control3:=false;
+end;
+1:
+begin
+chestieRobot2:=chestieRobot2 + 2;
+if(chestieRobot2 > 200) then
+faza2:=2;
+end;
+2:
+begin
+
+m:=m+5;
+sigma := m;
+n:=m;
+if(m > 70) then
+faza2:=3;
+end;
+3:
+begin
+n:=n+5;
+o:=n;
+sigma:=n;
+if(n > 120) then
+faza2:=4;
+end;
+4:
+
+begin
+ o:=o+5;
+sigma:=o;
+if(o>170) then faza2:=5;
+end;
+
+5:
+begin
+o:=o-5;
+sigma:=o;
+control3:=true;
+if(o=0)or(sigma = n) then
+faza2:=6;
+end;
+
+6:
+begin
+o:=0;
+n:=n-5;
+sigma :=n;
+
+if(n=0) or (sigma = m) then
+faza2:=7;
+end;
+
+7:
+begin
+n:=0;
+m:=m-5;
+sigma:=m;
+
+if(m=0) then faza2:=8;
+end;
+
+8:
+begin
+chestieRobot2 :=chestieRobot2-2;
+if(chestieRobot2 = 0) then faza2:=2;
+end;
+end;
+
+
+
+{rectangle(200,100,300+a,260);
+rectangle(280+a,140,300+a,260+b);
+rectangle(280+a,260+b,340+a+c,280+b);
+{polygon([point(100,200),point(150,250),point(250,350),point(200,200),point(500,550)]);}
+
+
+case faza of
+0:
+begin
+{Canvas.FillRect(clientrect);}
+ {a:=a+1;}
+
+ {if(a>10) then} faza:=1;
+ end;
+ 1:
+ begin
+ b:=b+5;
+ alpha:=b;
+ c:=b;
+ control:=false;
+ {DrawPensor(RectBase,RectArm1,RectArm2,220,90+alpha);}
+ if(b>=70) then faza:=2;
+ //if(altaChestie > 350) then faza:=0;
+ end;
+ 2:
+ begin
+
+ c:=c+3;
+ alpha:=c;
+ d:=c;
+ {DrawPensor(RectBase,RectArm1,RectArm2,220,90+alpha);}
+ if(c>120) then faza:=3;
+ end;
+ 3:
+ begin
+ d :=d+3;
+ alpha:=d;
+  {DrawPensor(RectBase,RectArm1,RectArm2,220,90+alpha);}
+ if(d>170)  then faza :=4;
+ end;
+ 4:
+ begin
+
+ d := d - 3;
+ alpha:=d;
+
+ if(d<=0)or(alpha=c) then faza :=5;
+ end;
+ 5:
+ begin
+ d:=0;
+ c:= c-5;
+ alpha:=c;
+ if(c<=0) or(alpha < b) then faza:=6;
+ end;
+ 6:
+ begin
+ c:=0;
+ b := b-5;
+ alpha:=b;
+
+ if (b <=0)  then faza :=7;
+ if (altaChestie > 350) and ( b <=0) then faza:=8;
+ end;
+ 7:
+ begin
+ altaChestie := altaChestie + 2;
+
+ if(altaChestie>350) then faza:=1;
+ end;
+  8:
+ begin
+ altaChestie := altaChestie - 2;
+
+ if(altaChestie = 0) then faza:=9;
+ end;
+
+  9:
+ begin
+ a:=a-1;
+
+ if(a<=0) then faza:=0;
+ control:=true;
+ end;
+ end;
+
+ end;
+ 
+
+ DrawBottle(Rect1,Rect2,miscareSticlaX,miscareSticlaY);
+
+ case checking of
+ 0:
+ begin
+ miscareSticlaY :=320;
+ miscareSticlaX:=miscareSticlaX + 3;
+ if(miscareSticlaX > 240) then checking:=1;
+ end;
+ 1:
+ begin
+ miscareSticlaY:=miscareSticlaY-5;
+ if(miscareSticlaY < 100) then
+ checking :=2;
+ end;
+ 2:
+ begin
+ miscareSticlaX:=miscareSticlaX + 2;
+ if(miscareSticlaX > 600) then
+ checking :=3;
+ end;
+  3:
+ begin
+ miscareSticlaY:=miscareSticlaY+5;
+ if(miscareSticlaY > 280) then
+ checking :=4;
+ end;
+   4:
+ begin
+ miscareSticlaY :=280;
+ control2:=true;
+ //if(control = true) then checking:=5;
+ if(control3 = true) then checking:=6;
+ end;
+   5:
+ begin
+ miscareSticlaX:=100;
+ checking :=0;
+ end;
+  6:
+  begin
+  miscareSticlaY:=miscareSticlaY-5;
+  if(miscareSticlaY < 100) then
+  checking :=7;
+  end;
+  7:
+  begin
+  miscareSticlaX := miscareSticlaX +2;
+  if(miscareSticlaX > 800) then
+  checking :=8;
+  end;
+  8:
+  begin
+  miscareSticlaY := miscareSticlaY +5;
+  if(miscareSticlaY > 300) then
+  checking :=9;
+  end;
+
+
+
+ end;
+
+
+
+
+
+end;
+
+end.
+
+
+
